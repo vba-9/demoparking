@@ -59,9 +59,13 @@ public class MainActivity extends AppCompatActivity {
                             String passwordDB=snapshot.child(usernameenter).child("password").getValue(String.class);
 
                             if(passwordDB.equals(passwordenter)){
+                                String u=usernameenter;
                                 Toast.makeText(MainActivity.this, " Wellcome", Toast.LENGTH_SHORT).show();
                                 Intent intent= new Intent(MainActivity.this,ActivityDsiplayAll.class);
+                                intent.putExtra("first",u);
                                 startActivity(intent);
+                                txtname.getText().clear();
+                                txtpassword.getText().clear();
 
                             }
                         }

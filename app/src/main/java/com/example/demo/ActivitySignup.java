@@ -65,8 +65,13 @@ public class ActivitySignup extends AppCompatActivity {
                     Signupinfo info = new Signupinfo(name, phone, mailid, password, conpassword);
                     //reference.child(phone).setValue(uh);
                     reference.child(phone).setValue(info);
-                    Intent intent = new Intent(ActivitySignup.this, ActivityDsiplayAll.class);
+                    Intent intent = new Intent(ActivitySignup.this, MainActivity.class);
                     startActivity(intent);
+                    myname.getText().clear();
+                    myphone.getText().clear();
+                    myemail.getText().clear();
+                    mypassword.getText().clear();
+                    myconpassword.getText().clear();
                 }
 
 
