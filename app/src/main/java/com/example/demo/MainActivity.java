@@ -57,20 +57,26 @@ public class MainActivity extends AppCompatActivity {
 
 
                             String passwordDB=snapshot.child(usernameenter).child("password").getValue(String.class);
-
+                                int flag=0;
                             if(passwordDB.equals(passwordenter)){
+
                                 String u=usernameenter;
-                                Toast.makeText(MainActivity.this, " Wellcome", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, " Welcome", Toast.LENGTH_SHORT).show();
+                                    flag=1;
                                 Intent intent= new Intent(MainActivity.this,ActivityDsiplayAll.class);
+
                                 intent.putExtra("first",u);
                                 startActivity(intent);
                                 txtname.getText().clear();
                                 txtpassword.getText().clear();
 
                             }
+                            if(flag==0)
+
+                            Toast.makeText(MainActivity.this, "Password and Username not match", Toast.LENGTH_LONG).show();
                         }
                         else{
-                            Toast.makeText(MainActivity.this, "no", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Invalid Credential", Toast.LENGTH_SHORT).show();
                         }
 
                     }

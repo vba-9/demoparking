@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,10 +20,11 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ActivityUpdate extends AppCompatActivity {
     TextView txtfirst;
-    EditText myname,myemail,mypassword,myconpassword;
+    EditText myname,myemail,mypassword;//myconpassword;
     String oldname,oldemail,oldpassword;
     Button submitb;
     DatabaseReference reference;
+    FirebaseDatabase rootNode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class ActivityUpdate extends AppCompatActivity {
                     //myconpassword.setText(oldconpassword);
 
 
+
                 }
 
 
@@ -65,6 +68,42 @@ public class ActivityUpdate extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+       submitb.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Toast.makeText(ActivityUpdate.this, " Pa", Toast.LENGTH_SHORT).show();
+               rootNode=FirebaseDatabase.getInstance();
+               reference=rootNode.getReference("user");
+               String name= myname.getText().toString();
+               String mail=myemail.getText().toString();
+               String password=mypassword.getText().toString();
+
+
+              //for checking the previo and new value
+               /*if(oldname.equals(myname.getText().toString().trim())) {
+                   Toast.makeText(ActivityUpdate.this, " Cant update", Toast.LENGTH_SHORT).show();
+               }*/
+
+
+                 if(mail.endsWith("@gmail.com")) {
+                     reference.child(first).child("name").setValue(name);
+                     reference.child(first).child("mailid").setValue(mail);
+                     reference.child(first).child("password").setValue(password);
+                     reference.child(first).child("conpassword").setValue(password);
+
+                     Toast.makeText(ActivityUpdate.this, " update", Toast.LENGTH_SHORT).show();
+                     //reference.child(first).child("name").setValue(name);
+                 }
+                 else{
+                     Toast.makeText(ActivityUpdate.this, " Please fill correct Details ", Toast.LENGTH_LONG).show();
+                 }
+
+
+
+
+
+           }
+       });
       //myname.setText(oldname);
 
 
