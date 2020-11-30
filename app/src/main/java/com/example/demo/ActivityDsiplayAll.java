@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class ActivityDsiplayAll extends AppCompatActivity {
     //EditText txtfirst;
     TextView txts;
-    Button updateB;
+    Button updateB,bookB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +21,7 @@ public class ActivityDsiplayAll extends AppCompatActivity {
       //  txtfirst=findViewById(R.id.firstid);
         txts=findViewById(R.id.secondid);
         updateB=findViewById(R.id.updateid);
+        bookB=findViewById(R.id.bookid);
        // txts=findViewById(R.id.secondid);
         //Toast.makeText(this, "You are in", Toast.LENGTH_SHORT).show();
         Intent intent=getIntent();
@@ -36,6 +37,14 @@ public class ActivityDsiplayAll extends AppCompatActivity {
 
             }
         });
+        bookB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(ActivityDsiplayAll.this,ActivityBook.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 }
