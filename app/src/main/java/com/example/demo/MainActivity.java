@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
     Button signup,login;
     EditText txtname,txtpassword;
+    TextView  view;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         signup=findViewById(R.id.signupid);
         login=findViewById(R.id.loginid);
+        view=findViewById(R.id.view1id);
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 String u=usernameenter;
                                 Toast.makeText(MainActivity.this, " Welcome", Toast.LENGTH_SHORT).show();
+                                view.setVisibility(View.GONE);
                                     flag=1;
                                 Intent intent= new Intent(MainActivity.this,ActivityDsiplayAll.class);
 
@@ -71,12 +75,15 @@ public class MainActivity extends AppCompatActivity {
                                 txtpassword.getText().clear();
 
                             }
-                            if(flag==0)
+                            if(flag==0) {
 
-                            Toast.makeText(MainActivity.this, "Password and Username not match", Toast.LENGTH_LONG).show();
+                                //Toast.makeText(MainActivity.this, "Password and Username not match", Toast.LENGTH_LONG).show();
+                                view.setVisibility(1);
+                            }
                         }
                         else{
                             Toast.makeText(MainActivity.this, "Invalid Credential", Toast.LENGTH_SHORT).show();
+                            view.setVisibility(View.GONE);
                         }
 
                     }
