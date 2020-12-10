@@ -1,8 +1,12 @@
 package com.example.demo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title.
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
         signup=findViewById(R.id.signupid);
@@ -38,50 +44,69 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(MainActivity.this,ActivitySignup.class);
+                int ans=connect();
+                if(ans==1)
                 startActivity(intent);
+                else
+                    Toast.makeText(MainActivity.this,"Check Network Connection !!!",Toast.LENGTH_LONG).show();
             }
         });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txtname=findViewById(R.id.usernameid);
-                txtpassword=findViewById(R.id.passwordi);
+                txtname = findViewById(R.id.usernameid);
+                txtpassword = findViewById(R.id.passwordi);
 
-                String usernameenter=txtname.getText().toString().trim();
-                String passwordenter=txtpassword.getText().toString().trim();
+                String usernameenter = txtname.getText().toString().trim();
+                String passwordenter = txtpassword.getText().toString().trim();
 
-                reference=FirebaseDatabase.getInstance().getReference("user") ;
-                Query checkuser=reference.orderByChild("phone").equalTo(usernameenter);
+                int ans=connect();
+                if(ans==1){
+                reference = FirebaseDatabase.getInstance().getReference("user");
+                Query checkuser = reference.orderByChild("phone").equalTo(usernameenter);
                 checkuser.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.exists()){
+                        if (snapshot.exists()) {
 
 
-                            String passwordDB=snapshot.child(usernameenter).child("password").getValue(String.class);
-                                int flag=0;
-                            if(passwordDB.equals(passwordenter)){
+                            String passwordDB = snapshot.child(usernameenter).child("password").getValue(String.class);
+                            int flag = 0;
+                            if (passwordDB.equals(passwordenter)) {
 
-                                String u=usernameenter;
+                                String u = usernameenter;
                                 Toast.makeText(MainActivity.this, " Welcome", Toast.LENGTH_SHORT).show();
                                 view.setVisibility(View.GONE);
-                                    flag=1;
-                                Intent intent= new Intent(MainActivity.this,ActivityDsiplayAll.class);
+                                flag = 1;
+                                Intent intent = new Intent(MainActivity.this, ActivityDsiplayAll.class);
 
-                                intent.putExtra("first",u);
+                                intent.putExtra("first", u);
+
+                               /* AlertDialog adg= new AlertDialog.Builder(MainActivity.this)
+                                        .setTitle("Info")
+                                        .setMessage("HEllo")
+                                        .setPositiveButton("Okk", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .create();
+                                adg.show();
+                                adg.seton
+*/
                                 startActivity(intent);
                                 txtname.getText().clear();
                                 txtpassword.getText().clear();
 
                             }
-                            if(flag==0) {
+                            if (flag == 0) {
 
                                 //Toast.makeText(MainActivity.this, "Password and Username not match", Toast.LENGTH_LONG).show();
                                 view.setVisibility(1);
                             }
-                        }
-                        else{
+                        } else {
                             Toast.makeText(MainActivity.this, "Invalid Credential", Toast.LENGTH_SHORT).show();
                             view.setVisibility(View.GONE);
                         }
@@ -92,8 +117,25 @@ public class MainActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
+            }
+                else
+                    Toast.makeText(MainActivity.this, "Check Network Connection !!!", Toast.LENGTH_SHORT).show();
 
             }
         });
+    }
+    private int connect() {
+        ConnectivityManager manager=(ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activenetwork=manager.getActiveNetworkInfo();
+        int flag=0;
+        if(null!=activenetwork){
+            if(activenetwork.getType()==ConnectivityManager.TYPE_MOBILE){
+                flag=1;
+            }
+        }
+        else {
+            flag=0;
+        }
+        return flag;
     }
 }

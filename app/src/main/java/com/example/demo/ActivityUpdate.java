@@ -1,15 +1,16 @@
 package com.example.demo;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +30,8 @@ public class ActivityUpdate extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title.
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_update);
         txtfirst=findViewById(R.id.firstid);
         submitb=findViewById(R.id.submituid);
@@ -55,7 +58,7 @@ public class ActivityUpdate extends AppCompatActivity {
                     oldpassword=snapshot.child(first).child("password").getValue(String.class);
                     mypassword.setText(oldpassword);
                     //oldconpassword=snapshot.child(first).child("conpassword").getValue(String.class);
-                    //myconpassword.setText(oldconpassword);
+                    //myconpassword.setText(oldconpasswo    rd);
 
 
 
