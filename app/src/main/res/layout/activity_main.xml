@@ -10,17 +10,17 @@
 
     <EditText
         android:id="@+id/usernameid"
-        android:layout_width="196dp"
-        android:layout_height="65dp"
+        android:layout_width="179dp"
+        android:layout_height="62dp"
         android:ems="10"
         android:hint="Mobilenumber"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.378"
+        app:layout_constraintHorizontal_bias="0.422"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.338" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.15" />
 
     <Button
         android:id="@+id/signupid"
@@ -29,32 +29,32 @@
         android:text="signup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.655"
+        app:layout_constraintHorizontal_bias="0.726"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.672" />
+        app:layout_constraintVertical_bias="0.724" />
 
     <Button
         android:id="@+id/loginid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="224dp"
+        android:layout_marginBottom="188dp"
         android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.216"
+        app:layout_constraintHorizontal_bias="0.263"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/passwordi"
         android:layout_width="209dp"
         android:layout_height="42dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.412"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameid" />
 
@@ -62,13 +62,24 @@
         android:id="@+id/view1id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="Password and Username Not match"
         android:textColor="@color/design_default_color_error"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.453"
+        app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordi" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="290dp"
+        android:layout_height="136dp"
+        android:layout_marginTop="68dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/whatsapp_image_2020_12_10_at_5_36_24_pm" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

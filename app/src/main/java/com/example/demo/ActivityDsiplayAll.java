@@ -26,7 +26,7 @@ public class ActivityDsiplayAll extends AppCompatActivity {
     //EditText txtfirst;
     TextView txts;
     EditText cancleslot;
-    Button updateB,bookB,cancleB;
+    Button updateB,bookB,cancleB,viewbooking;
     DatabaseReference reference;
     FirebaseDatabase rootNode;
 
@@ -42,6 +42,7 @@ public class ActivityDsiplayAll extends AppCompatActivity {
         bookB=findViewById(R.id.bookid);
         cancleB=findViewById(R.id.cancleid);
         cancleslot=findViewById(R.id.cancleslotid);
+        viewbooking=findViewById(R.id.displayrecid);
        // txts=findViewById(R.id.secondid);
         //Toast.makeText(this, "You are in", Toast.LENGTH_SHORT).show();
         Intent intent=getIntent();
@@ -63,6 +64,17 @@ public class ActivityDsiplayAll extends AppCompatActivity {
                 }
                 else
                     Toast.makeText(ActivityDsiplayAll.this,"Check Netork Connection !!! ",Toast.LENGTH_LONG).show();
+
+            }
+        });
+        viewbooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(connect()==1) {
+                    Intent i = new Intent(ActivityDsiplayAll.this, ActivityViewBooking.class);
+                    i.putExtra("name",first);
+                    startActivity(i);
+                }
 
             }
         });

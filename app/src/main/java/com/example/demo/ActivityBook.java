@@ -41,7 +41,7 @@ public class ActivityBook extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener sl;
     Calendar cal=Calendar.getInstance();
     FirebaseDatabase rootNode;
-    DatabaseReference reference;
+    DatabaseReference reference,referencephone;
     String d1;
 
     @Override
@@ -113,6 +113,7 @@ public class ActivityBook extends AppCompatActivity {
             public void onClick(View v) {
                 rootNode=FirebaseDatabase.getInstance();
                 reference=rootNode.getReference("Book");
+                referencephone=rootNode.getReference("BookPhone");
                 String date=txtdate.getText().toString();
                 String stime=txtstart.getText().toString();
                 String etime=txtend.getText().toString();
@@ -172,6 +173,7 @@ public class ActivityBook extends AppCompatActivity {
                         if (flag == 1  && sflag == 0 && pflag==0 &&(slot.equals("P1") || (slot.equals("P2"))||(slot.equals("P3")) || (slot.equals("P4")))) {
                             BookInfo binfo = new BookInfo(date, stime, etime, slot,mobnumber);
                             reference.child(slot).setValue(binfo);
+                            referencephone.child(mobnumber).setValue(binfo);
                             Toast.makeText(ActivityBook.this, "Successfully Book !!!", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(ActivityBook.this, "Please Enter All the Details !!!", Toast.LENGTH_LONG).show();
