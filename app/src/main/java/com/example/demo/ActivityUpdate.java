@@ -96,6 +96,9 @@ public class ActivityUpdate extends AppCompatActivity {
 
                      Toast.makeText(ActivityUpdate.this, " update", Toast.LENGTH_SHORT).show();
                      //reference.child(first).child("name").setValue(name);
+                     Intent i=new Intent(ActivityUpdate.this,ActivityDsiplayAll.class);
+                     startActivity(i);
+
                  }
                  else{
                      Toast.makeText(ActivityUpdate.this, " Please fill correct Details ", Toast.LENGTH_LONG).show();

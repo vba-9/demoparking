@@ -51,7 +51,7 @@ public class ActivitySignup extends AppCompatActivity {
                 if(ans==0)
                     Toast.makeText(ActivitySignup.this,  "Check Network Connection !!!", Toast.LENGTH_SHORT).show();
                 else {
-                    if (password.length() < 8) {
+                   if (password.length() < 8) {
                         Toast.makeText(ActivitySignup.this, " Password  more than 8 character", Toast.LENGTH_SHORT).show();
                         flag = 1;
                     }
@@ -71,6 +71,18 @@ public class ActivitySignup extends AppCompatActivity {
                     if (name.isEmpty() == true || phone.isEmpty() == true || mailid.isEmpty() == true || password.isEmpty() == true || conpassword.isEmpty() == true) {
                         tflag = 1;
                     }
+                    if(name.isEmpty()==true)
+                        myname.setError("Nme is not Empty");
+                    if(phone.isEmpty()==true){
+                        myphone.setError("Not empty");
+                    }
+                    if(password.isEmpty()==true)
+                        mypassword.setError("password is not Empty");
+                    if(conpassword.isEmpty()==true)
+                        myconpassword.setError("Password is not empty");
+                    if(mailid.isEmpty()==true)
+                        myemail.setError("Mail-id is not Empty");
+
                     if (fflag == 0 && tflag == 0 && pflag == 0 && flag == 0 && mflag == 0) {
                         Signupinfo info = new Signupinfo(name, phone, mailid, password, conpassword);
                         //reference.child(phone).setValue(uh);
@@ -83,6 +95,7 @@ public class ActivitySignup extends AppCompatActivity {
                         mypassword.getText().clear();
                         myconpassword.getText().clear();
                     }
+
 
                 }
 

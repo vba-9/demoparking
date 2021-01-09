@@ -1,8 +1,10 @@
 package com.example.demo;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -171,25 +173,60 @@ public class ActivityBook extends AppCompatActivity {
 
 
                         if (flag == 1  && sflag == 0 && pflag==0 &&(slot.equals("P1") || (slot.equals("P2"))||(slot.equals("P3")) || (slot.equals("P4")))) {
+                            String random=randomString();
                             BookInfo binfo = new BookInfo(date, stime, etime, slot,mobnumber);
                             reference.child(slot).setValue(binfo);
-                            referencephone.child(mobnumber).setValue(binfo);
-                            Toast.makeText(ActivityBook.this, "Successfully Book !!!", Toast.LENGTH_LONG).show();
+                            BookPhoneInfo bphoneinfo = new BookPhoneInfo (date, stime, etime, slot,mobnumber,random);
+                            referencephone.child(mobnumber).setValue(bphoneinfo);
+                            AlertDialog.Builder b=new AlertDialog.Builder(ActivityBook.this);
+                            b.setTitle("Information")
+                                    .setCancelable(false)
+
+                                    .setMessage("Reference Id is -->"+random)
+                                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Toast.makeText(ActivityBook.this, "Successfully Book !!!", Toast.LENGTH_LONG).show();
+                                            Intent i =new Intent(ActivityBook.this,ActivityDsiplayAll.class);
+
+                                            startActivity(i);
+                                        }
+                                    });
+                            AlertDialog d=b.create();
+                            d.show();
+
+
                         } else {
                             Toast.makeText(ActivityBook.this, "Please Enter All the Details !!!", Toast.LENGTH_LONG).show();
                         }
                     } catch (Exception e) {
                         Toast.makeText(ActivityBook.this, " Sorry..", Toast.LENGTH_SHORT).show();
                     }
+         }
 
+            }
+            String  randomString(){
+                // chose a Character random from this String
+                String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        + "0123456789"
+                        + "abcdefghijklmnopqrstuvxyz";
 
+                // create StringBuffer size of AlphaNumericString
+                StringBuilder sb = new StringBuilder(6);
 
+                for (int i = 0; i < 6; i++) {
 
+                    // generate a random number between
+                    // 0 to AlphaNumericString variable length
+                    int index
+                            = (int)(AlphaNumericString.length()
+                            * Math.random());
 
-
-
-                    }
-
+                    // add Character one by one in end of sb
+                    sb.append(AlphaNumericString
+                            .charAt(index));
+                }
+            return sb.toString();
             }
 
         });

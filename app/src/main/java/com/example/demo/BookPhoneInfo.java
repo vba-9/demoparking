@@ -1,7 +1,7 @@
 package com.example.demo;
 
-public class BookInfo {
-    String date,startingTime,endingTime,slot,mobilenumber;
+public class BookPhoneInfo {
+    String date,startingTime,endingTime,slot,mobilenumber,refcode;
 
 
     public String getDate() {
@@ -25,7 +25,15 @@ public class BookInfo {
         return endingTime;
     }
 
-    public BookInfo() {
+    public String getRefcode() {
+        return refcode;
+    }
+
+    public void setRefcode(String refcode) {
+        this.refcode = refcode;
+    }
+
+    public BookPhoneInfo() {
     }
 
     public void setEndingTime(String endingTime) {
@@ -48,15 +56,13 @@ public class BookInfo {
         this.slot = slot;
     }
 
-    public BookInfo(String date, String startingTime, String endingTime, String slot,String mobilenumber) {
+    public BookPhoneInfo(String date, String startingTime, String endingTime, String slot,String mobilenumber,String refcode) {
         //this.phone = phone;
         this.date = date;
         this.startingTime = startingTime;
         this.endingTime = endingTime;
         this.slot = slot;
         this.mobilenumber=mobilenumber;
+        this.refcode=refcode;
     }
-
-
-
 }

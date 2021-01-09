@@ -1,7 +1,8 @@
-package com.example.demo;
+ package com.example.demo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ public class ActivityDsiplayAll extends AppCompatActivity {
     //EditText txtfirst;
     TextView txts;
     EditText cancleslot;
-    Button updateB,bookB,cancleB,viewbooking;
+    Button updateB,bookB,cancleB,viewbooking,logout;
     DatabaseReference reference;
     FirebaseDatabase rootNode;
 
@@ -36,6 +37,7 @@ public class ActivityDsiplayAll extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title.
         getSupportActionBar().hide();
         setContentView(R.layout.activity_dsiplay_all);
+        int flag=0;
       //  txtfirst=findViewById(R.id.firstid);
         txts=findViewById(R.id.secondid);
         updateB=findViewById(R.id.updateid);
@@ -43,6 +45,7 @@ public class ActivityDsiplayAll extends AppCompatActivity {
         cancleB=findViewById(R.id.cancleid);
         cancleslot=findViewById(R.id.cancleslotid);
         viewbooking=findViewById(R.id.displayrecid);
+        logout=findViewById(R.id.logoutid);
        // txts=findViewById(R.id.secondid);
         //Toast.makeText(this, "You are in", Toast.LENGTH_SHORT).show();
         Intent intent=getIntent();
@@ -50,8 +53,35 @@ public class ActivityDsiplayAll extends AppCompatActivity {
         //txtfirst.setText(first);
         txts.setText(first);
 
+        reference= FirebaseDatabase.getInstance().getReference("BookPhone") ;
+        Query checkuser=reference.orderByChild("mobilenumber").equalTo(first);
+        checkuser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    bookB.setAlpha((float) 0.3);
+                    bookB.setClickable(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
 
+logout.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        SharedPreferences p=getSharedPreferences("checkbox",MODE_PRIVATE);
+        SharedPreferences.Editor editor=p.edit();
+        editor.putString( "remember","false");
+        editor.apply();
+        finish();
+        //Intent i=new Intent(ActivityDsiplayAll.this,MainActivity.class);
+        //startActivity(i);
+    }
+});
 
 
         updateB.setOnClickListener(new View.OnClickListener() {
@@ -83,9 +113,6 @@ public class ActivityDsiplayAll extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(connect()==1) {
-
-
-
                     Intent intent= new Intent(ActivityDsiplayAll.this,ActivityBook.class);
                     intent.putExtra("mob", first);
                     startActivity(intent);

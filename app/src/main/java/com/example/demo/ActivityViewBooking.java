@@ -22,8 +22,8 @@ public class ActivityViewBooking extends AppCompatActivity {
     TextView txtmob;
     DatabaseReference reference;
     FirebaseDatabase rootNode;
-    EditText start,end,slot;
-    String getstart,getend,getslot;
+    EditText start,end,slot,refcode;
+    String getstart,getend,getslot,getrefcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,9 @@ public class ActivityViewBooking extends AppCompatActivity {
         txtmob=findViewById(R.id.mobviewid);
         start=findViewById(R.id.startviewid);
         end=findViewById(R.id.endvid);
-        slot=findViewById(R.id.slotid);
+        slot=findViewById(R.id.slotviewid);
+        refcode=findViewById(R.id.refcodeid);
+
 
         Intent intent = getIntent();
         String first = intent.getStringExtra("name");
@@ -47,20 +49,15 @@ public class ActivityViewBooking extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()){
+                        getend=snapshot.child(first).child("endingTime").getValue(String.class);
+                        end.setText(getend);
+                        getslot=snapshot.child(first).child("slot").getValue(String.class);
+                        slot.setText(getslot);
                         getstart=snapshot.child(first).child("startingTime").getValue(String.class);
                         start.setText(getstart);
-                       /* oldemail=snapshot.child(first).child("mailid").getValue(String.class);
-                        myemail.setText(oldemail);
-                        oldpassword=snapshot.child(first).child("password").getValue(String.class);
-                        mypassword.setText(oldpassword);
-                        //oldconpassword=snapshot.child(first).child("conpassword").getValue(String.class);
-                        //myconpassword.setText(oldconpasswo    rd);
-*/
-
-
+                        getrefcode=snapshot.child(first).child("refcode").getValue(String.class);
+                        refcode.setText(getrefcode);
                     }
-
-
                 }
 
                 @Override
