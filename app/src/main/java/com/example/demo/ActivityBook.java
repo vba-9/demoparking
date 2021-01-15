@@ -188,6 +188,7 @@ public class ActivityBook extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             Toast.makeText(ActivityBook.this, "Successfully Book !!!", Toast.LENGTH_LONG).show();
                                             Intent i =new Intent(ActivityBook.this,ActivityDsiplayAll.class);
+                                            i.putExtra("third",mob);
 
                                             startActivity(i);
                                         }

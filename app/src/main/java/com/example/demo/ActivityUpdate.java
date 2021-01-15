@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +42,7 @@ public class ActivityUpdate extends AppCompatActivity {
         mypassword=findViewById(R.id.passworduid);
         //myconpassword=findViewById(R.id.conpassworduid);
         Intent intent=getIntent();
-        String first=intent.getStringExtra("name");
+        String first=intent.getStringExtra("updatephone");
         txtfirst.setText(first);
 
 
@@ -57,8 +59,7 @@ public class ActivityUpdate extends AppCompatActivity {
                   myemail.setText(oldemail);
                     oldpassword=snapshot.child(first).child("password").getValue(String.class);
                     mypassword.setText(oldpassword);
-                    //oldconpassword=snapshot.child(first).child("conpassword").getValue(String.class);
-                    //myconpassword.setText(oldconpasswo    rd);
+
 
 
 
@@ -94,10 +95,24 @@ public class ActivityUpdate extends AppCompatActivity {
                      reference.child(first).child("password").setValue(password);
                      reference.child(first).child("conpassword").setValue(password);
 
-                     Toast.makeText(ActivityUpdate.this, " update", Toast.LENGTH_SHORT).show();
+                     //Toast.makeText(ActivityUpdate.this, " update", Toast.LENGTH_SHORT).show();
                      //reference.child(first).child("name").setValue(name);
-                     Intent i=new Intent(ActivityUpdate.this,ActivityDsiplayAll.class);
-                     startActivity(i);
+                     AlertDialog.Builder b=new AlertDialog.Builder(ActivityUpdate.this);
+                     b.setTitle("Conformation")
+                             .setCancelable(false)
+
+                             .setMessage("Data updated Successfully ")
+                             .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                 @Override
+                                 public void onClick(DialogInterface dialog, int which) {
+                                     Intent i=new Intent(ActivityUpdate.this,ActivityDsiplayAll.class);
+                                     i.putExtra("second",first);
+                                     startActivity(i);
+                                 }
+                             });
+                     AlertDialog d=b.create();
+                     d.show();
+
 
                  }
                  else{

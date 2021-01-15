@@ -90,20 +90,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/whatsapp_image_2020_12_10_at_5_36_24_pm" />
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginLeft="140dp"
-        android:layout_marginTop="137dp"
-        android:layout_marginEnd="223dp"
-        android:layout_marginRight="223dp"
-        android:layout_marginBottom="96dp"
-        android:text="Re"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view1id" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

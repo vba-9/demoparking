@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MainActivity.super.onBackPressed();
+                        finish();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);//will hide the title.
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
-        remember=findViewById(R.id.checkBox);
+
         signup=findViewById(R.id.signupid);
         login=findViewById(R.id.loginid);
         view=findViewById(R.id.view1id);
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this,"Check Network Connection !!!",Toast.LENGTH_LONG).show();
             }
         });
-        SharedPreferences p=getSharedPreferences("checkbox",MODE_PRIVATE);
+        /*SharedPreferences p=getSharedPreferences("checkbox",MODE_PRIVATE);
         String checkbox= p.getString("remember","");
         if(checkbox.equals("true")){
             Toast.makeText(MainActivity.this, "wellcoe", Toast.LENGTH_SHORT).show();
@@ -92,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
         }else if(checkbox.equals("false")){
             Toast.makeText(MainActivity.this, "please sign in", Toast.LENGTH_SHORT).show();
 
-        }
-        remember.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        }*/
+        /*remember.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(buttonView.isChecked()){
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Unchecked", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, " Welcome", Toast.LENGTH_SHORT).show();
                                 view.setVisibility(View.GONE);
                                 flag = 1;
+                                //fun(u);
                                 Intent intent = new Intent(MainActivity.this, ActivityDsiplayAll.class);
 
                                 intent.putExtra("first", u);
@@ -202,4 +204,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return flag;
     }
+
 }
