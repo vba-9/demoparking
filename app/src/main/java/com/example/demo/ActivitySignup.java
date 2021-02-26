@@ -22,6 +22,7 @@ public class ActivitySignup extends AppCompatActivity {
     FirebaseDatabase rootNode;
     DatabaseReference reference;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +88,10 @@ public class ActivitySignup extends AppCompatActivity {
                         Signupinfo info = new Signupinfo(name, phone, mailid, password, conpassword);
                         //reference.child(phone).setValue(uh);
                         reference.child(phone).setValue(info);
+                        //////////////////////////////////
+
+
+                        ////////////
                         Intent intent = new Intent(ActivitySignup.this, MainActivity.class);
                         startActivity(intent);
                         myname.getText().clear();
@@ -94,6 +99,14 @@ public class ActivitySignup extends AppCompatActivity {
                         myemail.getText().clear();
                         mypassword.getText().clear();
                         myconpassword.getText().clear();
+
+                       /*///////////////////
+                        ActivityCompat.requestPermissions(ActivitySignup.this,new String []{Manifest.permission.SEND_SMS,Manifest.permission.READ_SMS}, PackageManager.PERMISSION_GRANTED);
+                        String message="Register..";
+                        SmsManager mysms=SmsManager.getDefault();
+                        String number="+91"+phone;
+                        mysms.sendTextMessage(phone,null,message,null,null);
+                        ////////////////*/
                     }
 
 

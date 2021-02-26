@@ -1,15 +1,19 @@
 package com.example.demo;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -19,10 +23,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -39,11 +49,12 @@ public class ActivityBook extends AppCompatActivity {
     TextView p1,p3,p2,p4,txtdateview,txtdateview1,txtmob;
     EditText txtdate,txtstart,txtend,txtslot;
     int t1hor,t1min;
+    int emptycolor,fullcolor;
 
     DatePickerDialog.OnDateSetListener sl;
     Calendar cal=Calendar.getInstance();
     FirebaseDatabase rootNode;
-    DatabaseReference reference,referencephone;
+    DatabaseReference reference,referencephone,reference2;
     String d1;
 
     @Override
@@ -69,8 +80,8 @@ public class ActivityBook extends AppCompatActivity {
         p2=findViewById(R.id.p2id) ;
         p3=findViewById(R.id.p3id);
         p4=findViewById(R.id.p4id);
-        int emptycolor= Color.rgb(0,153,76);
-        int fullcolor= Color.parseColor("RED");
+        emptycolor= Color.rgb(0,153,76);
+        fullcolor= Color.parseColor("RED");
         empty.setBackgroundColor(emptycolor);
         full.setBackgroundColor(fullcolor);
 
@@ -87,6 +98,7 @@ public class ActivityBook extends AppCompatActivity {
         final int year=cal.get(Calendar.YEAR);
         final int month=cal.get(Calendar.MONTH);
         final int day=cal.get(Calendar.DAY_OF_MONTH);
+        checkBookOrNot("P1",p1);
         txtdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,6 +181,7 @@ public class ActivityBook extends AppCompatActivity {
                         pflag=1;
 
                     }
+
                     try {
 
 
@@ -187,6 +200,14 @@ public class ActivityBook extends AppCompatActivity {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             Toast.makeText(ActivityBook.this, "Successfully Book !!!", Toast.LENGTH_LONG).show();
+                                            ActivityCompat.requestPermissions(ActivityBook.this,new String []{Manifest.permission.SEND_SMS,Manifest.permission.READ_SMS}, PackageManager.PERMISSION_GRANTED);
+                                            String message="Thank You for Booking with Booking ID : "+random +" for slot "+slot + "From "+stime +" to "+etime + "\nHAPPY Gourney!!!";
+                                            SmsManager mysms=SmsManager.getDefault();
+                                            String number="+91"+mobnumber;
+                                            mysms.sendTextMessage(mobnumber,null,message,null,null);
+
+
+
                                             Intent i =new Intent(ActivityBook.this,ActivityDsiplayAll.class);
                                             i.putExtra("third",mob);
 
@@ -315,4 +336,29 @@ public class ActivityBook extends AppCompatActivity {
         }
         return flag;
     }
+
+    void checkBookOrNot(String  s,TextView p){
+        reference2= FirebaseDatabase.getInstance().getReference("Book");
+        //String s=txts.getText().toString();
+        //Toast.makeText(ActivityDsiplayAll.this, s, Toast.LENGTH_SHORT).show();
+        Query check=reference2.orderByChild("slot").equalTo(s);
+
+        check.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int flag=0;
+                if(snapshot.exists()){
+
+                    p1.setBackgroundColor(fullcolor);
+
+
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+    }
+
 }

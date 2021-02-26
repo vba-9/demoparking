@@ -1,12 +1,15 @@
  package com.example.demo;
 
+ import android.Manifest;
  import android.content.Context;
  import android.content.DialogInterface;
  import android.content.Intent;
-import android.net.ConnectivityManager;
+ import android.content.pm.PackageManager;
+ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.view.View;
+ import android.telephony.SmsManager;
+ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +19,7 @@ import android.widget.Toast;
  import androidx.annotation.NonNull;
  import androidx.appcompat.app.AlertDialog;
  import androidx.appcompat.app.AppCompatActivity;
+ import androidx.core.app.ActivityCompat;
 
  import com.google.firebase.database.DataSnapshot;
  import com.google.firebase.database.DatabaseError;
@@ -28,9 +32,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
     TextView txts;
     EditText cancleslot;
-    Button updateB,bookB,cancleB,viewbooking,logout;
+    Button updateB,bookB,cancleB,viewbooking,logout,daccount;
     DatabaseReference reference;
-    DatabaseReference reference1;
+    DatabaseReference reference1,reference2;
     FirebaseDatabase rootNode;
     String impphonefirst,impphonesecond,impphonethird,impphonefourth;
 
@@ -51,6 +55,7 @@ import com.google.firebase.database.FirebaseDatabase;
         cancleslot=findViewById(R.id.cancleslotid);
         viewbooking=findViewById(R.id.displayrecid);
         logout=findViewById(R.id.logoutid);
+        daccount=findViewById(R.id.bdeleteid);
 
         Intent i=getIntent();
         impphonefirst=i.getStringExtra("first");
@@ -175,8 +180,11 @@ import com.google.firebase.database.FirebaseDatabase;
         });
 
         cancleB.setOnClickListener(new View.OnClickListener() {
+
             @Override
+
             public void onClick(View v) {
+
 
                 if(connect()==1){
                     cancleslot.setVisibility(1);
@@ -192,19 +200,53 @@ import com.google.firebase.database.FirebaseDatabase;
                             int flag=0;
                             if(snapshot.exists()){
 
-                                snapshot.child(scancleslot).getRef().setValue(null);
+
+                                if(cancleslot.getText().toString().isEmpty()==false  ){
+                                    reference1= FirebaseDatabase.getInstance().getReference("BookPhone");
+                                    String s=txts.getText().toString();
+                                    //Toast.makeText(ActivityDsiplayAll.this, s, Toast.LENGTH_SHORT).show();
+                                    Query check=reference1.orderByChild("mobilenumber").equalTo(s);
+
+                                    check.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            int flag=0;
+                                            if(snapshot.exists()){
+
+                                                bookB.setClickable(true);
+                                                bookB.setAlpha((float) 1.0);
+                                                snapshot.child(s).getRef().setValue(null);
+                                                ActivityCompat.requestPermissions(ActivityDsiplayAll.this,new String []{Manifest.permission.SEND_SMS,Manifest.permission.READ_SMS}, PackageManager.PERMISSION_GRANTED);
+                                                String message="Booking Successfully Cancel for Mobile Number "+s;
+                                                SmsManager mysms=SmsManager.getDefault();
+                                                String number="+91"+s;
+                                                mysms.sendTextMessage(s,null,message,null,null);
+                                                //Toast.makeText(ActivityDsiplayAll.this, "Successfully Cancel !!!  ", Toast.LENGTH_LONG).show();
+                                                flag = 1;
+
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        }
+                                    });
+                                }
+
+                                                       snapshot.child(scancleslot).getRef().setValue(null);
                                 bookB.setClickable(true);
                                 bookB.setAlpha((float)1.0);
                                 Toast.makeText(ActivityDsiplayAll.this, "Successfully Cancel !!!  ", Toast.LENGTH_LONG).show();
                                 flag=1;
+
                                 cancleslot.setVisibility(View.GONE);
 
                             }
                             else if((flag == 0 && scancleslot.isEmpty()) == false){
                                 Toast.makeText(ActivityDsiplayAll.this, " slot not found ", Toast.LENGTH_LONG).show();
-                                cancleslot.setText(null);
-                                cancleslot.setVisibility(View.GONE);
 
+                                cancleslot.setText(null);
+
+                                cancleslot.setVisibility(View.GONE);
 
                             }
                         }
@@ -212,39 +254,56 @@ import com.google.firebase.database.FirebaseDatabase;
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
                     });
-                    ////
-                    if(cancleslot.getText().toString().isEmpty()==false){
-                        reference1= FirebaseDatabase.getInstance().getReference("BookPhone");
-                        String s=txts.getText().toString();
-                        //Toast.makeText(ActivityDsiplayAll.this, s, Toast.LENGTH_SHORT).show();
-                        Query check=reference1.orderByChild("mobilenumber").equalTo(s);
-
-                        check.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                int flag=0;
-                                if(snapshot.exists()){
-                                    bookB.setClickable(true);
-                                    bookB.setAlpha((float)1.0);
-                                    snapshot.child(s).getRef().setValue(null);
-                                    Toast.makeText(ActivityDsiplayAll.this, "Successfully Cancel !!!  ", Toast.LENGTH_LONG).show();
-                                    flag=1;
-                                }
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                            }
-                        });
-                    }
-                    else{
-                        Toast.makeText(ActivityDsiplayAll.this, "Enter slot number", Toast.LENGTH_LONG).show();
-                    }
-
                 }
                 else{
                     Toast.makeText(ActivityDsiplayAll.this, "Check Network connection", Toast.LENGTH_SHORT).show();
 
                 }
+            }
+        });
+        daccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ActivityDsiplayAll.this, " !!!  ", Toast.LENGTH_LONG).show();
+               reference2= FirebaseDatabase.getInstance().getReference("user");
+                Query checkuser=reference2.orderByChild("phone").equalTo(txts.getText().toString());
+
+                checkuser.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        if(snapshot.exists()){
+
+                            snapshot.child(txts.getText().toString()).getRef().setValue(null);
+
+                           // Toast.makeText(ActivityDsiplayAll.this, "Successfully deleted !!!  ", Toast.LENGTH_LONG).show();
+                            AlertDialog.Builder b=new AlertDialog.Builder(ActivityDsiplayAll.this);
+                            b.setMessage("You want to exit..")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+
+                                            moveTaskToBack(true);
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog ad=b.create();
+                            ad.show();
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+
             }
         });
 
@@ -280,6 +339,8 @@ void bookDisplay(){
         public void onCancelled(@NonNull DatabaseError databaseError) {
         }
     });
+
 }
+
 
 }

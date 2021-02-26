@@ -75,7 +75,7 @@ public class ActivityUpdate extends AppCompatActivity {
        submitb.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Toast.makeText(ActivityUpdate.this, " Pa", Toast.LENGTH_SHORT).show();
+
                rootNode=FirebaseDatabase.getInstance();
                reference=rootNode.getReference("user");
                String name= myname.getText().toString();
@@ -83,49 +83,61 @@ public class ActivityUpdate extends AppCompatActivity {
                String password=mypassword.getText().toString();
 
 
-              //for checking the previo and new value
-               /*if(oldname.equals(myname.getText().toString().trim())) {
-                   Toast.makeText(ActivityUpdate.this, " Cant update", Toast.LENGTH_SHORT).show();
-               }*/
+               if(name.equals(oldname) &&mail.equals(oldemail)&& password.equals(oldpassword)) {
+                   AlertDialog.Builder b = new AlertDialog.Builder(ActivityUpdate.this);
+                   b.setTitle("No change ")
+                           .setCancelable(false)
+                           .setMessage("Data is Same as Previous ")
+                           .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialog, int which) {
+                                   Intent i = new Intent(ActivityUpdate.this, ActivityDsiplayAll.class);
+                                   i.putExtra("second", first);
+                                   startActivity(i);
+                               }
+                           });
+                   AlertDialog d = b.create();
+                   d.show();
+               }
+               else {
 
 
-                 if(mail.endsWith("@gmail.com")) {
-                     reference.child(first).child("name").setValue(name);
-                     reference.child(first).child("mailid").setValue(mail);
-                     reference.child(first).child("password").setValue(password);
-                     reference.child(first).child("conpassword").setValue(password);
-
-                     //Toast.makeText(ActivityUpdate.this, " update", Toast.LENGTH_SHORT).show();
-                     //reference.child(first).child("name").setValue(name);
-                     AlertDialog.Builder b=new AlertDialog.Builder(ActivityUpdate.this);
-                     b.setTitle("Conformation")
-                             .setCancelable(false)
-
-                             .setMessage("Data updated Successfully ")
-                             .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-                                 @Override
-                                 public void onClick(DialogInterface dialog, int which) {
-                                     Intent i=new Intent(ActivityUpdate.this,ActivityDsiplayAll.class);
-                                     i.putExtra("second",first);
-                                     startActivity(i);
-                                 }
-                             });
-                     AlertDialog d=b.create();
-                     d.show();
-
-
-                 }
-                 else{
-                     Toast.makeText(ActivityUpdate.this, " Please fill correct Details ", Toast.LENGTH_LONG).show();
-                 }
+                   if (mail.endsWith("@gmail.com")) {
+                       reference.child(first).child("name").setValue(name);
+                       reference.child(first).child("mailid").setValue(mail);
+                       reference.child(first).child("password").setValue(password);
+                       reference.child(first).child("conpassword").setValue(password);
 
 
 
+
+                       AlertDialog.Builder b = new AlertDialog.Builder(ActivityUpdate.this);
+                       b.setTitle("Conformation")
+                               .setCancelable(false)
+                               .setMessage("Data updated Successfully ")
+                               .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                   @Override
+                                   public void onClick(DialogInterface dialog, int which) {
+                                       Intent i = new Intent(ActivityUpdate.this, ActivityDsiplayAll.class);
+                                       i.putExtra("second", first);
+                                       startActivity(i);
+                                   }
+                               });
+                       AlertDialog d = b.create();
+                       d.show();
+
+
+                   } else {
+                       Toast.makeText(ActivityUpdate.this, " Please fill correct Details ", Toast.LENGTH_LONG).show();
+                   }
+
+
+               }
 
 
            }
        });
-      //myname.setText(oldname);
+
 
 
     }

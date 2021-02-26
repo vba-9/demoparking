@@ -39,7 +39,7 @@
         android:layout_marginTop="44dp"
         android:ems="10"
         android:hint="PhoneNumber"
-        android:inputType="textPersonName"
+        android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.442"
         app:layout_constraintStart_toStartOf="parent"

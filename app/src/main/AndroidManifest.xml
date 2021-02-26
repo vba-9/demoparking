@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.demo">
+    package="com.example.demo" >
+    <uses-permission android:name="android.permission.SEND_SMS"/>
 
     <application
         android:allowBackup="true"
@@ -9,8 +10,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Demo">
-        <activity android:name=".ActivityViewBooking"></activity>
+        android:theme="@style/Theme.Demo" >
+        <activity android:name=".AdminLogin" >
+        </activity>
+        <activity android:name=".ActivityViewBooking" />
         <activity android:name=".temp" />
         <activity android:name=".ActivityBook" />
         <activity android:name=".ActivityUpdate" />
@@ -19,7 +22,7 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".ActivityFront"
-            tools:ignore="DuplicateActivity">
+            tools:ignore="DuplicateActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
